@@ -111,27 +111,26 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function logout(Request $request)
-    {
-        try {
-            // Haal het token op
-            $token = JWTAuth::getToken();
+public function logout(Request $request)
+{
+    try {
+        $token = JWTAuth::getToken();
 
-            if (!$token) {
-                return response()->json(['error' => 'Token is vervald'], 401);
-            }
-
-            // Maak het token ongeldig
-            JWTAuth::invalidate($token);
-
-            return response()->json(['message' => 'Logout succesvol'], 200);
-
-        } catch (TokenInvalidException $e) {
-            return response()->json(['error' => 'Token is ongeldig'], 401);
-        } catch (TokenExpiredException $e) {
+        if (!$token) {
             return response()->json(['error' => 'Token is vervald'], 401);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Er is iets mis gegaan'], 500);
         }
+
+        JWTAuth::invalidate($token);
+
+        return response()->json(['message' => 'Logout succesvol'], 200);
+
+    } catch (TokenInvalidException $e) {
+        return response()->json(['error' => 'Token is ongeldig'], 401);
+    } catch (TokenExpiredException $e) {
+        return response()->json(['error' => 'Token is vervald'], 401);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Er is iets mis gegaan'], 500);
     }
+}
+
 }

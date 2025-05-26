@@ -134,13 +134,10 @@ const Navbar = () => {
                 <li>
                   <button
                     onClick={handleLogout}
-                    type="submit"
-                    className="flex items-center p-3 rounded-full bg-black group cursor-pointer hover:bg-[#6499E9]"
+                    className="flex items-center p-3 rounded-full bg-black hover:bg-[#6499E9]"
                   >
                     <svg
-                      className="shrink-0 w-5 h-5 text-[#bdb395] transition duration-75"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-5 h-5 text-[#bdb395]"
                       fill="none"
                       viewBox="0 0 18 16"
                     >

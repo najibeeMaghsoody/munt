@@ -60,28 +60,20 @@ export const getToken = () => {
 };
 
 export const logout = async () => {
-  const token = getToken();
+  const token = localStorage.getItem("token");
+  const res = await fetch("http://localhost:8000/api/logout", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`, // <- belangrijk!
+    },
+  });
 
-  try {
-    await axios.post(
-      `${API_URL}/logout`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      }
-    );
-  } catch (error) {
-    console.error(
-      "Fout bij server-side logout:",
-      error.response?.data || error.message
-    );
-  } finally {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+  if (!res.ok) {
+    throw new Error("Logout mislukt");
   }
+
+  localStorage.removeItem("token");
 };
 // categories functions
 export const getCategories = async () => {

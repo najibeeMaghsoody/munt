@@ -131,7 +131,7 @@ function AddBudget({ onSuccess }) {
 
               <button
                 type="submit"
-                className="w-full btn text-white py-2 rounded bg-[#6499E9] hover:bg-[#bdb395]"
+                className="w-full btn text-white py-2 rounded hover:bg-[#6499E9]"
               >
                 Toevoegen
               </button>

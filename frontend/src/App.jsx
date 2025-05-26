@@ -1,5 +1,10 @@
-import React, { createContext, useState, useContext } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { createContext, useState, useContext, use } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
@@ -11,7 +16,25 @@ import Category from "./pages/Category";
 import Budget from "./pages/Budget";
 
 export const ThemeContext = createContext(null);
-
+function AppContent() {
+  const location = useLocation();
+  const hideNavbarRoutes = ["/login", "/register"];
+  return (
+    <>
+      {!hideNavbarRoutes.includes(location.pathname) && <Navbar />}
+      <Routes>
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="setting" element={<Setting />} />
+        <Route path="category" element={<Category />} />
+        <Route path="budget" element={<Budget />} />
+      </Routes>
+      {/* <Footer /> */}
+    </>
+  );
+}
 function App() {
   const [theme, setTheme] = useState("light");
 
@@ -25,18 +48,8 @@ function App() {
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <div className={theme}>
         <Router>
-          <Navbar />
-          <Routes>
-            <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="setting" element={<Setting />} />
-            <Route path="category" element={<Category />} />
-            <Route path="budget" element={<Budget />} />
-          </Routes>
+          <AppContent />
         </Router>
-        <Footer />
       </div>
     </ThemeContext.Provider>
   );

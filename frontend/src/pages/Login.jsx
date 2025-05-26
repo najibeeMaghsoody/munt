@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { getBudgets } from "../function";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,6 +11,36 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   setError("");
+  //   setSuccess("");
+
+  //   try {
+  //     const response = await axios.post("http://127.0.0.1:8000/api/login", {
+  //       email,
+  //       password,
+  //     });
+
+  //     console.log("Response:", response.data);
+  //     if (response.data.token && response.data.user) {
+  //       setSuccess("Login successful!");
+  //       localStorage.setItem("token", response.data.token);
+  //       localStorage.setItem("user", JSON.stringify(response.data.user));
+  //       navigate("/dashboard");
+  //     } else {
+  //       setError("Invalid login response. Please try again.");
+  //     }
+  //   } catch (err) {
+  //     setLoading(false);
+  //     if (err.response) {
+  //       setError(err.response.data.error || "Login failed. Please try again.");
+  //     } else {
+  //       setError("Something went wrong. Please try again.");
+  //     }
+  //   }
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -22,12 +53,23 @@ const Login = () => {
         password,
       });
 
-      console.log("Response:", response.data);
       if (response.data.token && response.data.user) {
         setSuccess("Login successful!");
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.user));
-        navigate("/dashboard");
+
+        // Check of user budget heeft
+        try {
+          const budgets = await getBudgets();
+          if (budgets.length > 0) {
+            navigate("/dashboard");
+          } else {
+            navigate("/budget");
+          }
+        } catch (budgetError) {
+          console.error("Budget ophalen mislukt:", budgetError);
+          navigate("/budget"); // fallback
+        }
       } else {
         setError("Invalid login response. Please try again.");
       }
@@ -47,8 +89,23 @@ const Login = () => {
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               {error && (
-                <div className="text-red-500 mb-4">
-                  <p>Error: {error}</p>
+                <div
+                  class="flex items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                  role="alert"
+                >
+                  <svg
+                    class="shrink-0 inline w-4 h-4 me-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                  </svg>
+                  <span class="sr-only">Info</span>
+                  <div>
+                    <span class="font-medium">Danger alert!</span> {error}
+                  </div>
                 </div>
               )}
               {success && (

@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="w-screen bottom-0 left-0 right-0 fixed z-50">
+    <footer className="w-screen bottom-0 left-0 right-0 fixed -z-0">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
         <path
           fill="#bdb395"
