@@ -3,7 +3,9 @@
 @tailwind utilities;
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: system-ui, Avenir, Helvetica, Arial, sans-serif; */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -19,14 +21,52 @@
 
 body {
   margin: 0;
+  padding: 0;
   display: flex;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #f6f0f0;
+  background: linear-gradient(
+    90deg,
+    rgba(243, 244, 246, 1) 0%,
+    rgba(224, 231, 255, 1) 41%,
+    rgba(253, 242, 248, 1) 100%
+  );
 }
 .btn {
-  background-color: #bdb395;
+  background-color: black;
+  color: #bdb395;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #6499e9;
+}
+.light {
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  background: linear-gradient(
+    90deg,
+    rgba(243, 244, 246, 1) 0%,
+    rgba(224, 231, 255, 1) 41%,
+    rgba(253, 242, 248, 1) 100%
+  );
+}
+.dark {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  color: antiquewhite;
+  background: linear-gradient(
+    90deg,
+    rgba(63, 40, 112, 1) 0%,
+    rgba(16, 37, 110, 1) 41%,
+    rgba(12, 4, 48, 1) 100%
+  );
+}
+.input {
+  background-color: rgba(224, 231, 255, 1) 41%;
 }
 @media (prefers-color-scheme: light) {
   :root {

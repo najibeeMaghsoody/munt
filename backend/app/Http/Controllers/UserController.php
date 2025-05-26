@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -90,7 +91,7 @@ class UserController extends Controller
             'token' => $token
         ], 200);
     }
-
+    
     public function userDashboard(Request $request)
     {
         try {
