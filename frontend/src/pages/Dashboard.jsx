@@ -45,7 +45,7 @@ const Dashboard = () => {
           {/* Budget Card */}
           <div className="w-5/6 p-4 sm:ml-64 mt-10 top-0">
             <h1 className="text-2xl font-semibold mb-10 ">Budget</h1>
-            <IconsList />
+      
             <div className="p-4 rounded-lg">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {budgets.map((budget, index) => (

@@ -4,6 +4,7 @@ use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\IconsController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -12,22 +13,24 @@ use Illuminate\Support\Facades\Route;
 // Authenticatie routes
 Route::post('/register', [UserController::class, 'store']);
 Route::post('/login', [UserController::class, 'login']);
-Route::get('/dashboard', [UserController::class, 'userDashboard']);
-Route::post('/logout', [UserController::class, 'logout']);
+Route::post('/logout', [UserController::class, 'logout']); Route::post('/upload/image', [UploadController::class, 'uploadImage']);
+
 
 // Categorie routes
 Route::middleware('auth:api')->group(function () {
+//dashboard route
+    Route::get('/dashboard', [UserController::class, 'userDashboard']);
     //Budgets Api
     Route::get('/budgets', [BudgetController::class, 'index']);
     Route::post('/budgets', [BudgetController::class, 'store']);
     Route::put('/budgets/{budget}', [BudgetController::class, 'update']);
     Route::delete('/budgets/{budget}', [BudgetController::class, 'destroy']);
-    //Icons Api
+    //Image Api
    
-    Route::get('/icons', [IconsController::class, 'index']);
-    Route::post('/icons', [IconsController::class, 'store']);
-    Route::put('/icons/{icon}', [IconsController::class, 'update']);
-    Route::delete('/icons/{icon}', [IconsController::class, 'destroy']);
+    Route::post('/upload/image', [UploadController::class, 'uploadImage']);
+    Route::get('/image', [UploadController::class, 'index']);
+   
+    
     //Categories Api
     Route::get('/categories', [CategoryController::class, 'index']);
     Route::post('/categories', [CategoryController::class, 'store']);

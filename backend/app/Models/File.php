@@ -4,12 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Icons extends Model
+class File extends Model
 {
+
     protected $fillable = [
+        'user_id',
         'name',
         'extension',
+        'size',
+   
     ];
+    public $timestamps = false;
 
     public function categories()
     {

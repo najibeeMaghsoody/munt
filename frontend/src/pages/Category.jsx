@@ -4,6 +4,7 @@ import { getCategories } from "../function";
 import Delete from "../component/Delete";
 import Edit from "../component/Edit";
 import IconsList from "../component/IconsList";
+import AddIcon from "../component/AddIcon";
 
 function Category() {
   const bgColors = [
@@ -48,6 +49,8 @@ function Category() {
       <div className="w-5/6 p-4 sm:ml-64 mt-10 top-0 mb-72 ">
         <h1 className="text-2xl font-semibold mb-10">Categories</h1>
         <AddCategory />
+        <AddIcon />
+
         <div className="p-4 rounded-lg">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {categories.map((category, index) => (
@@ -95,7 +98,6 @@ function Category() {
         onClose={() => setShowDeletePopup(false)}
         onConfirm={handleConfirmDelete}
       />
-
     </>
   );
 }
