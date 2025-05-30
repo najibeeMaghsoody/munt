@@ -14,6 +14,7 @@ import Navbar from "./component/Navbar";
 import Footer from "./component/Footer";
 import Category from "./pages/Category";
 import Budget from "./pages/Budget";
+import Icon from "./pages/Icon";
 
 export const ThemeContext = createContext(null);
 function AppContent() {
@@ -29,6 +30,7 @@ function AppContent() {
         <Route path="profile" element={<Profile />} />
         <Route path="setting" element={<Setting />} />
         <Route path="category" element={<Category />} />
+        <Route path="icon" element={<Icon />} />
         <Route path="budget" element={<Budget />} />
       </Routes>
       {/* <Footer /> */}
