@@ -7,39 +7,46 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
-{
-   
-    // Categorieën ophalen
-public function index(Request $request)
+{// Haal alle categorieën op van de ingelogde gebruiker
+    public function index(Request $request)
     {
-        $categories = Categories::where('user_id', $request->user()->id)->get();
+        $userId = $request->user()->id;
+
+        $categories = Categories::where('user_id', $userId)
+            ->with('file') // Zorg dat de relatie bestaat in je model
+            ->get();
+
         return response()->json($categories);
     }
 
-    // Nieuwe categorie aanmaken
+    // Toon één specifieke categorie
+    public function show(Request $request, Categories $category)
+    {
+        if ($category->user_id !== $request->user()->id) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        return response()->json($category);
+    }
+
+    // Sla een nieuwe categorie op
     public function store(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'icon' => 'nullable|image|mimes:png,jpg,jpeg,svg|max:2048',
+            'file_id' => 'nullable|exists:files,id',
         ]);
 
-        $path = null;
-
-        if ($request->hasFile('icon_path')) {
-            $path = $request->file('icon_path')->store('icons', 'public');
-        }
-
         $category = Categories::create([
-            'user_id' => $request->user()->id,
             'name' => $validated['name'],
-            'icon_path' => $path,
+            'file_id' => $validated['file_id'] ?? null,
+            'user_id' => $request->user()->id,
         ]);
 
         return response()->json($category, 201);
     }
 
-    // Categorie bijwerken
+    // Update een bestaande categorie
     public function update(Request $request, Categories $category)
     {
         if ($category->user_id !== $request->user()->id) {
@@ -47,42 +54,24 @@ public function index(Request $request)
         }
 
         $validated = $request->validate([
-            'name' => 'sometimes|string|max:255',
-            'icon_path' => 'nullable|image|mimes:png,jpg,jpeg,svg|max:2048',
+            'name' => 'sometimes|required|string|max:255',
+            'file_id' => 'nullable|exists:files,id',
         ]);
 
-        // Nieuwe afbeelding uploaden (oude verwijderen als er al één is)
-        if ($request->hasFile('icon_path')) {
-            if ($category->icon_path && Storage::disk('public')->exists($category->icon_path)) {
-                Storage::disk('public')->delete($category->icon_path);
-            }
-
-            $path = $request->file('icon_path')->store('icons', 'public');
-            $category->icon_path = $path;
-        }
-
-        if (isset($validated['name'])) {
-            $category->name = $validated['name'];
-        }
-
-        $category->save();
+        $category->update($validated);
 
         return response()->json($category);
     }
 
-    //  Categorie verwijderen
+    // Verwijder een categorie
     public function destroy(Request $request, Categories $category)
     {
         if ($category->user_id !== $request->user()->id) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
-        if ($category->icon_path && Storage::disk('public')->exists($category->icon_path)) {
-            Storage::disk('public')->delete($category->icon_path);
-        }
-
         $category->delete();
 
-        return response()->json(['message' => 'Category deleted']);
+        return response()->json(['message' => 'Category deleted successfully.']);
     }
 }

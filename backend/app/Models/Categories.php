@@ -10,7 +10,7 @@ class Categories extends Model
   
     use HasFactory;
 
-    protected $fillable = ['user_id', 'name'];
+    protected $fillable = [ 'name' ,'user_id', 'file_id'];
 
     public function user() {
         return $this->belongsTo(User::class);
