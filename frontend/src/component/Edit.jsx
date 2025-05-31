@@ -1,15 +1,15 @@
 import React from "react";
 
 function Edit() {
-    const handleEditClick = () => {
-        // Hier kun je de logica voor het bewerken van de categorie toevoegen
-        console.log("Bewerken van de categorie...");
-    };
+  const handleEditClick = () => {
+    // Hier kun je de logica voor het bewerken van de categorie toevoegen
+    console.log("Bewerken van de categorie...");
+  };
   return (
     <div>
-      <button className="flex items-center justify-center w-14 h-14 mb-4 rounded-full bg-[#6499E9] drop-shadow-lg hover:bg-indigo-900 pointer-events-auto">
+      <button className="flex items-center justify-center w-14 h-14 mb-4 rounded-full bg-black drop-shadow-lg hover:bg-[#6499E9] pointer-events-auto">
         <svg
-          className="w-6 h-6 text-gray-800 dark:text-white"
+          className="w-6 h-6 text-[#bdb395] dark:text-white"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           width="24"

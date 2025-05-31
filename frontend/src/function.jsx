@@ -75,48 +75,107 @@ export const logout = async () => {
 
   localStorage.removeItem("token");
 };
-// categories functions
+// CATEGORIES FUNCTIONALITEIT
 export const getCategories = async () => {
+  const token = getToken();
   try {
-    const token = getToken();
-    if (!token) {
-      throw new Error("Geen token gevonden");
-    }
-
     const response = await axios.get(`${API_URL}/categories`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-
     return response.data;
   } catch (error) {
-    console.error("Fout bij ophalen categorieën:", error);
+    console.error(
+      "Fout bij ophalen van categorieën:",
+      error.response?.data || error.message
+    );
     throw error;
   }
 };
 
-export const addCategory = async (name, icon) => {
+// ✅ Voeg één categorie toe
+export const addCategory = async (name, file_id = null) => {
+  const token = getToken();
   try {
-    const token = getToken();
-    if (!token) {
-      throw new Error("Geen token gevonden");
-    }
-
     const response = await axios.post(
-      `${API_URL}/add-category`,
-      { name, icon },
+      `${API_URL}/categories`,
+      { name, file_id },
       {
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, icon }),
       }
     );
-
     return response.data;
   } catch (error) {
-    console.error("Fout bij toevoegen categorie:", error);
+    console.error(
+      "Fout bij toevoegen categorie:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
+// ✅ Haal één specifieke categorie op
+export const getCategory = async (id) => {
+  const token = getToken();
+  try {
+    const response = await axios.get(`${API_URL}/categories/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Fout bij ophalen categorie:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
+// ✅ Werk een bestaande categorie bij
+export const updateCategory = async (id, updatedData) => {
+  const token = getToken();
+  try {
+    const response = await axios.put(
+      `${API_URL}/categories/${id}`,
+      updatedData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Fout bij bijwerken categorie:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
+// ✅ Verwijder een categorie
+export const deleteCategory = async (id) => {
+  const token = getToken();
+  try {
+    const response = await axios.delete(`${API_URL}/categories/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Fout bij verwijderen categorie:",
+      error.response?.data || error.message
+    );
     throw error;
   }
 };

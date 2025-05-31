@@ -1,17 +1,40 @@
 import React, { useState, useEffect } from "react";
-import { addCategory } from "../function";
+
+// Functie om categorie toe te voegen via API
+const addCategory = async (name, file_id) => {
+  const token = localStorage.getItem("token");
+  const response = await fetch("http://127.0.0.1:8000/api/categories", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      name,
+      file_id,
+    }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Fout bij toevoegen categorie");
+  }
+
+  return await response.json();
+};
 
 function AddCategory() {
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [isIconSelectorOpen, setIconSelectorOpen] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [categoryName, setCategoryName] = useState("");
-  const [selectedIcon, setSelectedIcon] = useState("");
+  const [selectedFileId, setSelectedFileId] = useState(null);
+  const [selectedIconName, setSelectedIconName] = useState("");
   const [allImages, setAllImages] = useState([]);
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
 
-  // Haal alle icons op bij laden
+  // Ophalen van beschikbare icons
   const fetchImages = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -20,7 +43,7 @@ function AddCategory() {
       });
       const data = await response.json();
       setAllImages(data.images || []);
-    } catch (error) {
+    } catch (err) {
       setError("Fout bij ophalen van afbeeldingen.");
     }
   };
@@ -29,23 +52,27 @@ function AddCategory() {
     fetchImages();
   }, []);
 
+  // Categorie toevoegen
   const handleAddCategory = async (e) => {
     e.preventDefault();
     try {
-      await addCategory(categoryName, selectedIcon);
+      await addCategory(categoryName, selectedFileId);
       setCategoryName("");
-      setSelectedIcon("");
+      setSelectedFileId(null);
+      setSelectedIconName("");
       setPopupOpen(false);
     } catch (error) {
-      console.error("Fout bij toevoegen categorie:", error);
+      setError(error.message);
     }
   };
 
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+  // Bestand selecteren om te uploaden
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
     setError("");
   };
 
+  // Icon uploaden
   const handleUploadSubmit = async (e) => {
     e.preventDefault();
     if (!file) return;
@@ -58,9 +85,7 @@ function AddCategory() {
       const response = await fetch("http://127.0.0.1:8000/api/upload/image", {
         method: "POST",
         body: formData,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       const data = await response.json();
@@ -71,59 +96,62 @@ function AddCategory() {
       } else {
         setError(data.message || "Upload mislukt.");
       }
-    } catch (error) {
+    } catch (err) {
       setError("Fout bij uploaden.");
     }
   };
 
   return (
     <div>
-      {/* Toevoegen knop */}
+      {/* Knop: categorie toevoegen */}
       <button
-        className="flex items-center justify-center w-14 h-14 mb-4 rounded-full bg-[#6499E9] drop-shadow-lg"
         onClick={() => setPopupOpen(true)}
+        className="flex items-center justify-center w-14 h-14 mb-4 rounded-full bg-blue-500 drop-shadow-lg text-white text-2xl"
       >
-        <span className="text-2xl text-white">+</span>
+        +
       </button>
 
-      {/* Popup voor toevoegen categorie */}
+      {/* Popup: Categorie toevoegen */}
       {isPopupOpen && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg w-full max-w-md">
             <h2 className="text-lg font-bold mb-4">Categorie toevoegen</h2>
-            <form onSubmit={handleAddCategory} className="space-y-4">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Naam van categorie"
-                  value={categoryName}
-                  onChange={(e) => setCategoryName(e.target.value)}
-                  className="w-full border px-4 py-2 rounded-lg"
-                  required
-                />
+            {error && (
+              <div className="bg-red-100 text-red-700 p-2 rounded mb-4">
+                {error}
               </div>
+            )}
+            <form onSubmit={handleAddCategory} className="space-y-4">
+              <input
+                type="text"
+                value={categoryName}
+                onChange={(e) => setCategoryName(e.target.value)}
+                placeholder="Naam categorie"
+                className="w-full border px-4 py-2 rounded-lg"
+                required
+              />
 
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => setIconSelectorOpen(true)}
-                  className="bg-[#bdb395] text-white px-3 py-2 rounded hover:bg-[#6499E9]"
+                  className="bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-700"
                 >
-                  {selectedIcon ? "Icon wijzigen" : "Icon kiezen"}
+                  {selectedIconName ? "Icon wijzigen" : "Icon kiezen"}
                 </button>
-                {selectedIcon && (
+                {selectedIconName && (
                   <img
-                    src={`http://127.0.0.1:8000/storage/icons/${selectedIcon}`}
-                    alt="selected"
+                    src={`http://127.0.0.1:8000/storage/icons/${selectedIconName}`}
+                    alt="icon"
                     className="w-10 h-10 rounded-full border"
                   />
                 )}
               </div>
 
-              <div className="flex justify-between mt-6">
+              <div className="flex justify-between">
                 <button
                   type="submit"
-                  className="bg-[#6499E9] text-white px-4 py-2 rounded hover:bg-[#bdb395]"
+                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                 >
                   Opslaan
                 </button>
@@ -132,7 +160,7 @@ function AddCategory() {
                   onClick={() => setPopupOpen(false)}
                   className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
                 >
-                  Annuleer
+                  Annuleren
                 </button>
               </div>
             </form>
@@ -140,7 +168,7 @@ function AddCategory() {
         </div>
       )}
 
-      {/* Icon selecteren */}
+      {/* Icon Selector */}
       {isIconSelectorOpen && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg max-w-3xl w-full">
@@ -148,25 +176,27 @@ function AddCategory() {
               Kies een icon
             </h2>
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
-              {/* uploadknop */}
+              {/* Upload knop */}
               <div
                 onClick={() => {
-                  setShowUploadModal(true);
                   setIconSelectorOpen(false);
+                  setShowUploadModal(true);
                 }}
-                className="bg-gray-100 border border-dashed border-gray-400 w-20 h-20 flex items-center justify-center rounded-full cursor-pointer hover:bg-gray-200"
+                className="bg-gray-100 border-dashed border-2 border-gray-400 w-20 h-20 flex items-center justify-center rounded-full cursor-pointer hover:bg-gray-200"
               >
                 <span className="text-3xl font-bold text-gray-600">+</span>
               </div>
 
+              {/* Lijst met icons */}
               {allImages.map((img) => (
                 <div
                   key={img.id}
                   onClick={() => {
-                    setSelectedIcon(img.name);
+                    setSelectedFileId(img.id);
+                    setSelectedIconName(img.name);
                     setIconSelectorOpen(false);
                   }}
-                  className="cursor-pointer hover:scale-110 transition transform duration-150"
+                  className="cursor-pointer hover:scale-110 transition"
                 >
                   <img
                     src={`http://127.0.0.1:8000/storage/icons/${img.name}`}
@@ -180,7 +210,7 @@ function AddCategory() {
             <div className="mt-4 text-center">
               <button
                 onClick={() => setIconSelectorOpen(false)}
-                className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
+                className="bg-gray-400 text-white px-4 py-2 rounded"
               >
                 Sluiten
               </button>
@@ -195,13 +225,13 @@ function AddCategory() {
           <div className="bg-white p-6 rounded-lg w-full max-w-md relative">
             <button
               onClick={() => setShowUploadModal(false)}
-              className="absolute top-2 right-2 text-xl text-gray-500 hover:text-black"
+              className="absolute top-2 right-2 text-xl"
             >
               &times;
             </button>
-            <h2 className="text-xl font-bold mb-4">Upload een icon</h2>
+            <h2 className="text-lg font-bold mb-4">Upload icon</h2>
             {error && (
-              <div className="bg-red-100 text-red-700 p-2 rounded mb-4 text-sm">
+              <div className="bg-red-100 text-red-700 p-2 rounded mb-2">
                 {error}
               </div>
             )}
@@ -214,7 +244,6 @@ function AddCategory() {
               />
               <button
                 type="submit"
-                disabled={!file}
                 className="bg-blue-600 text-white px-4 py-2 rounded w-full hover:bg-blue-700"
               >
                 Upload

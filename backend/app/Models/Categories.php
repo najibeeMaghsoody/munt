@@ -24,4 +24,19 @@ class Categories extends Model
     public function budgets() {
         return $this->hasMany(Budget::class);
     }
+    public function file() {
+        return $this->belongsTo(File::class);
+    }
+    public function getFileNameAttribute()
+    {
+        return $this->file ? $this->file->name : null;
+    }
+    public function getFileExtensionAttribute()
+    {
+        return $this->file ? $this->file->extension : null;
+    }
+    public function getFileSizeAttribute()
+    {
+        return $this->file ? $this->file->size : null;
+    }
 }

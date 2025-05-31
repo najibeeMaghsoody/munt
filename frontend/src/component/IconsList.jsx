@@ -29,8 +29,7 @@ const IconsList = () => {
       {icons.map((icon) => (
         <div key={icon.id} className="text-center">
           <img
-            // src={`http://127.0.0.1:8000/${icon.icon_path}`}
-
+          
             alt={icon.name}
             className="w-24 h-24 object-contain mx-auto"
           />

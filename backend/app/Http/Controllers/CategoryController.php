@@ -13,13 +13,13 @@ class CategoryController extends Controller
         $userId = $request->user()->id;
 
         $categories = Categories::where('user_id', $userId)
-            ->with('file') // Zorg dat de relatie bestaat in je model
+            ->with('file') 
             ->get();
 
         return response()->json($categories);
     }
 
-    // Toon één specifieke categorie
+  
     public function show(Request $request, Categories $category)
     {
         if ($category->user_id !== $request->user()->id) {

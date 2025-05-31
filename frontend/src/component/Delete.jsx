@@ -12,7 +12,7 @@ export default function Delete({ open, onClose, onConfirm }) {
         <div className="flex justify-around mt-6">
           <button
             onClick={onClose}
-            className="w-28 bg-[#6499E9]  hover:bg-[#bdb395] font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:hover:bg-[#6499E9] dark:bg-[#bdb395] me-2 mb-2 text-gray-50"
+            className="w-28  bg-black drop-shadow-lg hover:bg-[#6499E9] font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:hover:bg-[#6499E9] dark:bg-[#bdb395] me-2 mb-2 text-gray-50"
           >
             <svg
               className="w-6 h-6 text-gray-800 dark:text-white"

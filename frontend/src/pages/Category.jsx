@@ -3,8 +3,6 @@ import AddCategory from "../component/AddCategory";
 import { getCategories } from "../function";
 import Delete from "../component/Delete";
 import Edit from "../component/Edit";
-import IconsList from "../component/IconsList";
-import AddIcon from "../component/AddIcon";
 
 function Category() {
   const bgColors = [
@@ -49,8 +47,6 @@ function Category() {
       <div className="w-5/6 p-4 sm:ml-64 mt-10 top-0 mb-72 ">
         <h1 className="text-2xl font-semibold mb-10">Categories</h1>
         <AddCategory />
-        <AddIcon />
-
         <div className="p-4 rounded-lg">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {categories.map((category, index) => (
@@ -60,18 +56,29 @@ function Category() {
                   bgColors[index % bgColors.length]
                 }`}
               >
-                <div className="text-4xl mb-4">{category.icon}</div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-1">
+                {category.file && category.file.name ? (
+                  <img
+                    src={`http://127.0.0.1:8000/storage/icons/${category.file.name}`}
+                    alt={category.name}
+                    className="w-20 h-20 mb-4 object-contain"
+                  />
+                ) : (
+                  <div className="w-20 h-20 mb-4 bg-gray-200 flex items-center justify-center rounded-full">
+                    <span className="text-gray-500">No Icon</span>
+                  </div>
+                )}
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">
                   {category.name}
                 </h3>
-                <p className="text-sm text-gray-500">20 Courses</p>
-                <div className="flex space-x-4 p-4">
+
+                <div className="flex space-x-4">
                   <button
                     onClick={() => handleDeleteClick(category)}
-                    className="flex items-center justify-center w-14 h-14 mb-4 rounded-full bg-[#6499E9] drop-shadow-lg hover:bg-red-400"
+                    className="flex items-center justify-center w-14 h-14 mb-4 rounded-full bg-black drop-shadow-lg hover:bg-[#6499E9] pointer-events-auto"
+                    title="Delete category"
                   >
                     <svg
-                      className="w-6 h-6 text-gray-800 dark:text-white"
+                      className="w-6 h-6 text-[#bdb395] dark:text-white"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -85,7 +92,7 @@ function Category() {
                       />
                     </svg>
                   </button>
-                  <Edit />
+                  <Edit category={category} />
                 </div>
               </div>
             ))}
