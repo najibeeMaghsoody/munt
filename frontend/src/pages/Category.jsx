@@ -41,7 +41,14 @@ function Category() {
     setCategories(categories.filter((cat) => cat.id !== selectedCategory.id));
     setShowDeletePopup(false);
   };
-
+  // In Category component, voeg deze functie toe:
+  const handleUpdateCategory = (updatedCategory) => {
+    setCategories((prevCategories) =>
+      prevCategories.map((cat) =>
+        cat.id === updatedCategory.id ? updatedCategory : cat
+      )
+    );
+  };
   return (
     <>
       <div className="w-5/6 p-4 sm:ml-64 mt-10 top-0 mb-72 ">
@@ -92,7 +99,7 @@ function Category() {
                       />
                     </svg>
                   </button>
-                  <Edit category={category} />
+                  <Edit category={category} onUpdate={handleUpdateCategory} />
                 </div>
               </div>
             ))}
