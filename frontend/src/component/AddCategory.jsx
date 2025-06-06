@@ -106,9 +106,9 @@ function AddCategory() {
       {/* Knop: categorie toevoegen */}
       <button
         onClick={() => setPopupOpen(true)}
-        className="flex items-center justify-center w-14 h-14 mb-4 rounded-full bg-blue-500 drop-shadow-lg text-white text-2xl"
+        className="flex items-center justify-center w-14 h-14 mb-4 rounded-full bg-[#6499E9] drop-shadow-lg "
       >
-        +
+        ➕
       </button>
 
       {/* Popup: Categorie toevoegen */}
@@ -135,7 +135,7 @@ function AddCategory() {
                 <button
                   type="button"
                   onClick={() => setIconSelectorOpen(true)}
-                  className="bg-gray-500 text-white px-3 py-2 rounded hover:bg-gray-700"
+                  className="bg-[#bdb395] hover:bg-black text-white px-3 py-2 rounded"
                 >
                   {selectedIconName ? "Icon wijzigen" : "Icon kiezen"}
                 </button>
@@ -151,16 +151,50 @@ function AddCategory() {
               <div className="flex justify-between">
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                  className="w-28 hover:bg-black text-white drop-shadow-lg bg-[#6499E9] font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:hover:bg-[#6499E9] dark:bg-[#bdb395] me-2 mb-2 dark:text-gray-50"
                 >
+                  <svg
+                    class="w-6 h-6 text-white dark:text-white"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m8.032 12 1.984 1.984 4.96-4.96m4.55 5.272.893-.893a1.984 1.984 0 0 0 0-2.806l-.893-.893a1.984 1.984 0 0 1-.581-1.403V7.04a1.984 1.984 0 0 0-1.984-1.984h-1.262a1.983 1.983 0 0 1-1.403-.581l-.893-.893a1.984 1.984 0 0 0-2.806 0l-.893.893a1.984 1.984 0 0 1-1.403.581H7.04A1.984 1.984 0 0 0 5.055 7.04v1.262c0 .527-.209 1.031-.581 1.403l-.893.893a1.984 1.984 0 0 0 0 2.806l.893.893c.372.372.581.876.581 1.403v1.262a1.984 1.984 0 0 0 1.984 1.984h1.262c.527 0 1.031.209 1.403.581l.893.893a1.984 1.984 0 0 0 2.806 0l.893-.893a1.985 1.985 0 0 1 1.403-.581h1.262a1.984 1.984 0 0 0 1.984-1.984V15.7c0-.527.209-1.031.581-1.403Z"
+                    />
+                  </svg>
                   Opslaan
                 </button>
                 <button
                   type="button"
                   onClick={() => setPopupOpen(false)}
-                  className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
+                  className="w-28 bg-black drop-shadow-lg hover:bg-[#6499E9] font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:hover:bg-[#6499E9] dark:bg-[#bdb395] me-2 mb-2 text-gray-50"
                 >
-                  Annuleren
+                  <svg
+                    className="w-5 h-5 text-gray-50 dark:text-white mr-1"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                    />
+                  </svg>
+                  Cancel
                 </button>
               </div>
             </form>
@@ -176,17 +210,6 @@ function AddCategory() {
               Kies een icon
             </h2>
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
-              {/* Upload knop */}
-              <div
-                onClick={() => {
-                  setIconSelectorOpen(false);
-                  setShowUploadModal(true);
-                }}
-                className="bg-gray-100 border-dashed border-2 border-gray-400 w-20 h-20 flex items-center justify-center rounded-full cursor-pointer hover:bg-gray-200"
-              >
-                <span className="text-3xl font-bold text-gray-600">+</span>
-              </div>
-
               {/* Lijst met icons */}
               {allImages.map((img) => (
                 <div
@@ -210,9 +233,26 @@ function AddCategory() {
             <div className="mt-4 text-center">
               <button
                 onClick={() => setIconSelectorOpen(false)}
-                className="bg-gray-400 text-white px-4 py-2 rounded"
+                className="w-28 bg-black drop-shadow-lg hover:bg-[#6499E9] font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:hover:bg-[#6499E9] dark:bg-[#bdb395] me-2 mb-2 text-gray-50"
               >
-                Sluiten
+                <svg
+                  className="w-5 h-5 text-gray-50 dark:text-white mr-1"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+                Cancel
               </button>
             </div>
           </div>

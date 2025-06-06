@@ -15,7 +15,7 @@ export default function Delete({ open, onClose, onConfirm }) {
             className="w-28  bg-black drop-shadow-lg hover:bg-[#6499E9] font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:hover:bg-[#6499E9] dark:bg-[#bdb395] me-2 mb-2 text-gray-50"
           >
             <svg
-              className="w-6 h-6 text-gray-800 dark:text-white"
+              className="w-5 h-5 text-gray-50 dark:text-white mr-1"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -35,7 +35,7 @@ export default function Delete({ open, onClose, onConfirm }) {
           </button>
           <button
             onClick={onConfirm}
-            className="w-28 bg-red-400  font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center  dark:hover:bg-red-400 dark:bg-red-700 me-2 mb-2 text-gray-50"
+            className="w-28 bg-red-400 hover:bg-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center  dark:hover:bg-red-400 dark:bg-red-700 me-2 mb-2 text-gray-50"
           >
             <svg
               className="w-6 h-6 text-gray-50 dark:text-white"

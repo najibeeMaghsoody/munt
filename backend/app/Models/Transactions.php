@@ -13,6 +13,8 @@ class Transactions extends Model
         'description',
         'type',
         'date',
+        'budget_id',
+        
     ];
 
     public function user()

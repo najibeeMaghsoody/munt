@@ -98,7 +98,7 @@ function AddIcon() {
               <button
                 type="submit"
                 disabled={!file}
-                className="bg-blue-600 text-white rounded px-4 py-2 w-full"
+                className="bg-black hover:bg-[#6499E9] text-[#bdb395] hover:text-white rounded px-4 py-2 w-full"
               >
                 Upload
               </button>
@@ -118,7 +118,7 @@ function AddIcon() {
             {/*  Eerste item: plusknop */}
             <div
               onClick={() => setShowModal(true)}
-              className="bg-gray-100 border border-dashed border-gray-400 w-24 h-24 flex items-center justify-center rounded-full cursor-pointer hover:bg-gray-200"
+              className="bg-[#6499E9] border border-dashed border-gray-400 w-24 h-24 flex items-center justify-center rounded-full shadow cursor-pointer"
             >
               <span className="text-3xl font-bold text-gray-600">+</span>
             </div>

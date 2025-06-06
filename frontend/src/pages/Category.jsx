@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AddCategory from "../component/AddCategory";
-import { getCategories } from "../function";
+import { deleteCategory, getCategories } from "../function";
 import Delete from "../component/Delete";
 import Edit from "../component/Edit";
 
@@ -17,6 +17,8 @@ function Category() {
   const [categories, setCategories] = useState([]);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedEditCategory, setSelectedEditCategory] = useState(null);
+  const [showEditPopup, setShowEditPopup] = useState(false);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -34,12 +36,24 @@ function Category() {
     setSelectedCategory(category);
     setShowDeletePopup(true);
   };
+  const handleEditClick = (category) => {
+    setSelectedEditCategory(category);
+    setShowEditPopup(true);
+  };
+  const handleConfirmDelete = async () => {
+    try {
+      // Hier haal je token op uit localStorage of context
+      const token = localStorage.getItem("token"); // of je eigen methode
 
-  const handleConfirmDelete = () => {
-    // Hier verwijder je de categorie (API-aanroep als nodig)
-    console.log("Verwijderd:", selectedCategory);
-    setCategories(categories.filter((cat) => cat.id !== selectedCategory.id));
-    setShowDeletePopup(false);
+      await deleteCategory(selectedCategory.id, token);
+
+      // Verwijder uit lokale state
+      setCategories(categories.filter((cat) => cat.id !== selectedCategory.id));
+      setShowDeletePopup(false);
+    } catch (error) {
+      console.error("Fout bij verwijderen categorie:", error);
+      alert("Verwijderen is mislukt. Probeer opnieuw.");
+    }
   };
   // In Category component, voeg deze functie toe:
   const handleUpdateCategory = (updatedCategory) => {
@@ -49,6 +63,7 @@ function Category() {
       )
     );
   };
+
   return (
     <>
       <div className="w-5/6 p-4 sm:ml-64 mt-10 top-0 mb-72 ">
@@ -65,7 +80,9 @@ function Category() {
               >
                 {category.file && category.file.name ? (
                   <img
-                    src={`http://127.0.0.1:8000/storage/icons/${category.file.name}`}
+                    src={`http://127.0.0.1:8000/storage/icons/${
+                      category.file?.name
+                    }?t=${new Date().getTime()}`}
                     alt={category.name}
                     className="w-20 h-20 mb-4 object-contain"
                   />
@@ -99,19 +116,48 @@ function Category() {
                       />
                     </svg>
                   </button>
-                  <Edit category={category} onUpdate={handleUpdateCategory} />
+                  <button
+                    onClick={() => handleEditClick(category)}
+                    className="flex items-center justify-center w-14 h-14 rounded-full bg-black drop-shadow-lg hover:bg-[#6499E9] pointer-events-auto"
+                    title="Edit category"
+                  >
+                    <svg
+                      className="w-6 h-6 text-[#bdb395] dark:text-white"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"
+                      />
+                    </svg>
+                  </button>
                 </div>
               </div>
             ))}
           </div>
         </div>
       </div>
-
       <Delete
         open={showDeletePopup}
         onClose={() => setShowDeletePopup(false)}
         onConfirm={handleConfirmDelete}
       />
+      {showEditPopup && selectedEditCategory && (
+        <Edit
+          category={selectedEditCategory}
+          onUpdate={handleUpdateCategory}
+          isOpen={showEditPopup}
+          onClose={() => setShowEditPopup(false)}
+        />
+      )}
     </>
   );
 }

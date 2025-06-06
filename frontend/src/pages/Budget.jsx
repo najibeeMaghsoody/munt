@@ -2,8 +2,12 @@ import { useEffect, useState } from "react";
 import AddBudget from "../component/AddBudget";
 import { getBudgets } from "../function";
 import EditBudget from "../component/EditBudget";
+import Delete from "../component/Delete";
 
 function Budget() {
+  const [selectedBudgetId, setSelectedBudgetId] = useState(null);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+
   const bgColors = [
     "bg-[#B7B1F2]",
     "bg-[#A6D6D6]",
@@ -13,6 +17,7 @@ function Budget() {
     "bg-[#A5B68D]",
     "bg-[#C599B6]",
   ];
+
   const [budgets, setBudgets] = useState([]);
 
   const fetchBudgets = async () => {
@@ -28,10 +33,27 @@ function Budget() {
     fetchBudgets();
   }, []);
 
+  const handleDelete = async () => {
+    try {
+      await fetch(`http://localhost:8000/api/budgets/${selectedBudgetId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      setIsDeleteOpen(false);
+      setSelectedBudgetId(null);
+      fetchBudgets(); // Herlaad de lijst
+    } catch (error) {
+      console.error("Fout bij verwijderen:", error);
+    }
+  };
+
   return (
     <div className="w-5/6 h-screen p-4 sm:ml-64 mt-10 top-0">
       <h1 className="text-2xl font-semibold mb-10">Budget</h1>
       <AddBudget onSuccess={fetchBudgets} />
+
       <div className="p-4 rounded-lg">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {budgets.map((budget, index) => (
@@ -56,27 +78,32 @@ function Budget() {
                 | {budget.start_date} - {budget.end_date}
               </p>
               <hr className="text-slate-700 h-2 mt-3 mb-3" />
-              <div className="flex justify-center items-center">
-                <button className="mr-2 bg-black text-[#bdb395] py-2 px-3 rounded-md items-center flex justify-center dark:text-white">
+
+              <div className="flex space-x-4">
+                <button
+                  onClick={() => {
+                    setSelectedBudgetId(budget.id);
+                    setIsDeleteOpen(true);
+                  }}
+                  className="flex items-center justify-center w-14 h-14 mb-4 rounded-full bg-black drop-shadow-lg hover:bg-[#6499E9] pointer-events-auto"
+                  title="Delete category"
+                >
                   <svg
-                    className="w-6 h-6 text-[#bdb395] dark:text-white mr-2 ml-2"
-                    aria-hidden="true"
+                    className="w-6 h-6 text-[#bdb395] dark:text-white"
                     xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
                     fill="none"
                     viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
                   >
                     <path
-                      stroke="currentColor"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"
+                      d="M5 7h14M10 11v6m4-6v6M9 4h6v2H9V4z"
                     />
                   </svg>
-                  Delete
                 </button>
+
                 <EditBudget
                   budgetId={budget.id}
                   initialData={budget}
@@ -87,6 +114,13 @@ function Budget() {
           ))}
         </div>
       </div>
+
+      {/* Verwijder-popup component */}
+      <Delete
+        open={isDeleteOpen}
+        onClose={() => setIsDeleteOpen(false)}
+        onConfirm={handleDelete}
+      />
     </div>
   );
 }

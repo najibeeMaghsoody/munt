@@ -71,10 +71,11 @@ function EditBudget({ budgetId, initialData, onSuccess }) {
           console.log("Edit button clicked"); // Debug log
           setPopupOpen(true);
         }}
-        className="mr-2 bg-black text-[#bdb395] py-2 px-5 rounded-md items-center flex justify-center dark:text-white"
+        className="flex items-center justify-center w-14 h-14 rounded-full bg-black drop-shadow-lg hover:bg-[#6499E9] pointer-events-auto"
+        title="Edit category"
       >
         <svg
-          className="w-6 h-6 text-[#bdb395] dark:text-white mr-2 ml-2"
+          className="w-6 h-6 text-[#bdb395] dark:text-white"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -90,7 +91,6 @@ function EditBudget({ budgetId, initialData, onSuccess }) {
             d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"
           />
         </svg>
-        Edit
       </button>
 
       {isPopupOpen && (
@@ -170,7 +170,7 @@ function EditBudget({ budgetId, initialData, onSuccess }) {
               <button
                 type="button"
                 onClick={() => setPopupOpen(false)}
-                className="w-full bg-gray-300 text-gray-800 py-2 rounded mt-2"
+                className="w-full bg-[#bdb395] hover:bg-black hover:text-[#bdb395] text-gray-800 py-2 rounded mt-2"
               >
                 Annuleren
               </button>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categories;
+use App\Models\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -47,21 +48,46 @@ class CategoryController extends Controller
     }
 
     // Update een bestaande categorie
-    public function update(Request $request, Categories $category)
-    {
-        if ($category->user_id !== $request->user()->id) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
+  public function update(Request $request, Categories $category)
+{
 
-        $validated = $request->validate([
-            'name' => 'sometimes|required|string|max:255',
-            'file_id' => 'nullable|exists:files,id',
+
+    if ($category->user_id !== $request->user()->id) {
+        return response()->json(['error' => 'Unauthorized'], 403);
+    }
+
+    $validated = $request->validate([
+        'name' => 'sometimes|required|string|max:255',
+        'file' => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2048',
+    ]);
+
+    // Bestandsupload verwerken als aanwezig
+    if ($request->hasFile('file')) {
+        $uploadedFile = $request->file('file');
+        $fileName = uniqid() . '.' . $uploadedFile->getClientOriginalExtension();
+        $path = $uploadedFile->storeAs('public/icons', $fileName);
+
+        // Opslaan in files-tabel
+        $fileModel = File::create([
+            'name' => $fileName,
+            'extension' => $uploadedFile->getClientOriginalExtension(), // Voeg de extensie toe
+            'size' => $uploadedFile->getSize(), // Voeg de bestandsgrootte toe
+            'user_id' => $request->user()->id, // Voeg de gebruiker ID toe
         ]);
 
-        $category->update($validated);
-
-        return response()->json($category);
+        // Verbind nieuwe file_id met de categorie
+        $category->file_id = $fileModel->id;
     }
+
+    if (isset($validated['name'])) {
+        $category->name = $validated['name'];
+    }
+
+    $category->save();
+
+    return response()->json($category->load('file'));
+}
+
 
     // Verwijder een categorie
     public function destroy(Request $request, Categories $category)

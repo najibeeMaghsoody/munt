@@ -162,23 +162,25 @@ export const updateCategory = async (id, updatedData) => {
 };
 
 // ✅ Verwijder een categorie
-export const deleteCategory = async (id) => {
-  const token = getToken();
-  try {
-    const response = await axios.delete(`${API_URL}/categories/${id}`, {
+// function.js
+export async function deleteCategory(categoryId, token) {
+  const response = await fetch(
+    `http://127.0.0.1:8000/api/categories/${categoryId}`,
+    {
+      method: "DELETE",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`, // indien nodig
+        Accept: "application/json",
       },
-    });
-    return response.data;
-  } catch (error) {
-    console.error(
-      "Fout bij verwijderen categorie:",
-      error.response?.data || error.message
-    );
-    throw error;
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Verwijderen mislukt");
   }
-};
+
+  return await response.json();
+}
 
 // add budget function
 export const addBudget = async ({

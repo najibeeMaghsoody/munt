@@ -56,7 +56,7 @@ function AddBudget({ onSuccess }) {
     <div>
       <button
         onClick={() => setPopupOpen(true)}
-        className="flex items-center justify-center w-14 h-14 mb-4 rounded-full bg-[#6499E9] drop-shadow-lg"
+        className="flex items-center justify-center w-14 h-14 mb-4 rounded-full bg-[#6499E9] drop-shadow-lg "
       >
         ➕
       </button>
@@ -138,7 +138,7 @@ function AddBudget({ onSuccess }) {
               <button
                 type="button"
                 onClick={() => setPopupOpen(false)}
-                className="w-full bg-gray-300 text-gray-800 py-2 rounded mt-2"
+                className="w-full bg-[#bdb395] hover:bg-black hover:text-[#bdb395] text-gray-800 py-2 rounded mt-2"
               >
                 Annuleren
               </button>
