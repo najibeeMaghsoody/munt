@@ -39,9 +39,11 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
     //Transactions Api
     Route::get('/transactions', [TransactionController::class, 'index']);
+    Route::get('/transactions/{transaction}', [TransactionController::class, 'show']);
     Route::post('/transactions', [TransactionController::class, 'store']);
     Route::put('/transactions/{transaction}', [TransactionController::class, 'update']);
     Route::delete('/transactions/{transaction}', [TransactionController::class, 'destroy']);
+
 
 });
 

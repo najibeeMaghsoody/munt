@@ -15,6 +15,7 @@ import Footer from "./component/Footer";
 import Category from "./pages/Category";
 import Budget from "./pages/Budget";
 import Icon from "./pages/Icon";
+import Transaction from "./pages/Transaction";
 
 export const ThemeContext = createContext(null);
 function AppContent() {
@@ -32,6 +33,7 @@ function AppContent() {
         <Route path="category" element={<Category />} />
         <Route path="icon" element={<Icon />} />
         <Route path="budget" element={<Budget />} />
+        <Route path="transaction" element={<Transaction />} />
       </Routes>
       {/* <Footer /> */}
     </>

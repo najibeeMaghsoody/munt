@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Transaction;
 use App\Models\Transactions;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -14,6 +13,7 @@ class TransactionController extends Controller
     {
         try {
             $transactions = Transactions::where('user_id', $request->user()->id)
+               ->with('category.file')
                 ->with('category')
                 ->orderByDesc('date')
                 ->get();
@@ -29,22 +29,16 @@ class TransactionController extends Controller
         try {
             $validated = $request->validate([
                 'category_id' => 'required|exists:categories,id',
+                'budget_id' => 'nullable|exists:budgets,id',
                 'amount' => 'required|numeric',
                 'description' => 'nullable|string',
                 'type' => 'required|in:income,expense',
                 'date' => 'required|date',
             ]);
+             $validated['user_id'] = $request->user()->id;
+             $transaction = Transactions::create($validated);
 
-            $transaction = Transactions::create([
-                'user_id' => $request->user()->id,
-                'category_id' => $validated['category_id'],
-                'amount' => $validated['amount'],
-                'description' => $validated['description'] ?? null,
-                'type' => $validated['type'],
-                'date' => $validated['date'],
-            ]);
-
-            return response()->json($transaction, 201);
+        return response()->json($transaction, 201);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(['errors' => $e->errors()], 422);
         } catch (Exception $e) {
@@ -60,12 +54,14 @@ class TransactionController extends Controller
             }
 
             $validated = $request->validate([
-                'category_id' => 'sometimes|exists:categories,id',
-                'amount' => 'sometimes|numeric',
-                'description' => 'nullable|string',
-                'type' => 'sometimes|in:income,expense',
-                'date' => 'sometimes|date',
-            ]);
+            'category_id' => 'sometimes|exists:categories,id',
+            'budget_id' => 'nullable|exists:budgets,id',
+            'amount' => 'sometimes|numeric',
+            'description' => 'nullable|string',
+            'type' => 'sometimes|in:income,expense',
+            'date' => 'sometimes|date',
+        ]);
+
 
             $transaction->update($validated);
 
