@@ -90,7 +90,7 @@ const Navbar = () => {
                 </li>
                 <li className="mb-5">
                   <Link
-                    to={"/budget"}
+                    to={"/transaction"}
                     className="flex items-center p-3 rounded-full bg-black group cursor-pointer hover:bg-[#6499E9]"
                   >
                     <svg

@@ -14,13 +14,11 @@ const AddTransaction = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const user_id = localStorage.getItem("user_id");
-    console.log("user_id uit localStorage:", user_id);
-    if (!token || !user_id) {
-      console.error("Geen geldige token of user_id gevonden in localStorage");
+    if (!token) {
+      console.error("Geen geldige token gevonden in localStorage");
       return;
     }
-    // Fetch categorieën
+
     axios
       .get("http://localhost:8000/api/categories", {
         headers: { Authorization: `Bearer ${token}` },
@@ -30,7 +28,6 @@ const AddTransaction = () => {
         console.error("Fout bij ophalen van categorieën", error)
       );
 
-    // Fetch budgetten
     axios
       .get("http://localhost:8000/api/budgets", {
         headers: { Authorization: `Bearer ${token}` },
