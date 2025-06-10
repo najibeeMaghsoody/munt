@@ -251,3 +251,26 @@ export const deleteBudget = async (budgetId) => {
   });
   return response.data;
 };
+export const charts = async (budgetId) => {
+  const token = getToken();
+  const response = await axios.get(`${API_URL}/budgets/${budgetId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+export const getCharts = async () => {
+  const token = getToken();
+  try {
+    const response = await axios.get(`http://localhost:8000/api/charts`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Fout bij ophalen van charts:", error.response?.data || error.message);
+    throw error;
+  }
+};

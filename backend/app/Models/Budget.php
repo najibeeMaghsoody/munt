@@ -20,10 +20,9 @@ class Budget extends Model
     public function user() {
         return $this->belongsTo(User::class);
     }
-    public function transactions()
-    {
-        return $this->hasMany(Transactions::class);
-    }
+    public function transactions() {
+    return $this->hasMany(Transactions::class);
+}
     public function category() {
         return $this->belongsTo(Categories::class);
     }

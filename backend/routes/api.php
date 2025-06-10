@@ -20,6 +20,10 @@ Route::post('/logout', [UserController::class, 'logout']); Route::post('/upload/
 Route::middleware('auth:api')->group(function () {
 //dashboard route
     Route::get('/dashboard', [UserController::class, 'userDashboard']);
+    //charts route
+    Route::get('/charts', [BudgetController::class, 'chart']);
+
+
     //Budgets Api
     Route::get('/budgets', [BudgetController::class, 'index']);
     Route::post('/budgets', [BudgetController::class, 'store']);

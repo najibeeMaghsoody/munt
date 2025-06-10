@@ -78,4 +78,29 @@ class BudgetController extends Controller
 
         return response()->json(['message' => 'Budget deleted successfully']);
     }
+    // budget chart 
+public function chart(Request $request)
+{
+    $userId = $request->user()->id;
+
+    $budgets = Budget::with('transactions')->where('user_id', $userId)->get();
+
+    return response()->json(
+        $budgets->map(function ($budget) {
+            $expenses = $budget->transactions->where('type', 'expense')->sum('amount');
+            $income = $budget->transactions->where('type', 'income')->sum('amount');
+
+            return [
+                'id' => $budget->id,
+                'name' => $budget->name,
+                'total_budget' => $budget->budget,
+                'total_expense' => $expenses,
+                'total_income' => $income,
+                'remaining' => $budget->budget - $expenses,
+            ];
+        })->values()
+    );
 }
+
+}
+

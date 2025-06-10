@@ -16,6 +16,7 @@ import Category from "./pages/Category";
 import Budget from "./pages/Budget";
 import Icon from "./pages/Icon";
 import Transaction from "./pages/Transaction";
+import Chart from "./component/Chart";
 
 export const ThemeContext = createContext(null);
 function AppContent() {
@@ -33,6 +34,7 @@ function AppContent() {
         <Route path="category" element={<Category />} />
         <Route path="icon" element={<Icon />} />
         <Route path="budget" element={<Budget />} />
+        <Route path="chart" element={<Chart />} />
         <Route path="transaction" element={<Transaction />} />
       </Routes>
       {/* <Footer /> */}

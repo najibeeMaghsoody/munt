@@ -56,11 +56,10 @@ const Profile = () => {
 
   return (
     <>
-   
-      <div className="mt-16 flex items-center justify-center h-screen p-5">
-        <div className="card w-auto h-100 bg-white shadow-md rounded-3xl p-6">
+      <div className=" flex items-center justify-center p-5">
+        <div className=" w-full h-[400px] p-6 rounded-2xl shadow-md flex flex-col items-center text-center transition-transform transform hover:scale-105 bg-[#9FB3DF]">
           <div className="flex flex-row items-center">
-            <div className="flex justify-center mb-4 rounded-full w-40 h-30 overflow-hidden border-2 border-gray-300 m-3">
+            <div className="flex justify-center mb-4 rounded-full h-30 overflow-hidden border-2 border-gray-300 m-3">
               <img src={profile} alt="" />
             </div>
             <div>
@@ -70,12 +69,6 @@ const Profile = () => {
               <p>
                 <strong>Email:</strong> {user.email}
               </p>
-              <div
-                onClick={handleImageClick}
-                className="btn w-full text-white hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 mt-5"
-              >
-                <input type="file" ref={inputRef} onChange={handleFileChange} />
-              </div>
             </div>
           </div>
         </div>
