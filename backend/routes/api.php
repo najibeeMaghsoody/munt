@@ -3,6 +3,7 @@
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\IconsController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
@@ -18,7 +19,11 @@ Route::post('/logout', [UserController::class, 'logout']); Route::post('/upload/
 
 // Categorie routes
 Route::middleware('auth:api')->group(function () {
-//dashboard route
+    // user routes
+    Route::post('/update-profile-photo', [SettingController::class, 'updateProfilePhoto']);
+    Route::post('/change-email', [SettingController::class, 'changeEmail']);
+    Route::post('/change-password', [SettingController::class, 'changePassword']);
+    //dashboard route
     Route::get('/dashboard', [UserController::class, 'userDashboard']);
     //charts route
     Route::get('/charts', [BudgetController::class, 'chart']);

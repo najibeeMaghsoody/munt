@@ -104,7 +104,7 @@ class UserController extends Controller
         } catch (JWTException $e) {
             return response()->json(['errors' => 'Token niet gevonden'], 401);
         }
-
+        $user->photo_url = $user->profile_photo ? asset('storage/' . $user->profile_photo) : null;
         return response()->json([
             'user' => $user,
             'message' => 'Welkom in je dashboard!',
