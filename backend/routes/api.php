@@ -23,6 +23,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/update-profile-photo', [SettingController::class, 'updateProfilePhoto']);
     Route::post('/change-email', [SettingController::class, 'changeEmail']);
     Route::post('/change-password', [SettingController::class, 'changePassword']);
+    Route::post('/change-name', [SettingController::class, 'changeName']);
     //dashboard route
     Route::get('/dashboard', [UserController::class, 'userDashboard']);
     //charts route

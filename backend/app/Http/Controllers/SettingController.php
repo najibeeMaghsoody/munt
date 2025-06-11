@@ -47,4 +47,17 @@ class SettingController extends Controller
 
         return response()->json(['message' => 'Password updated successfully.']);
     }
+    public function changeName(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $user = $request->user();
+        $user->name = $request->name;
+        $user->save();
+
+        return response()->json(['message' => 'Name updated successfully.']);
+    }
+
 }

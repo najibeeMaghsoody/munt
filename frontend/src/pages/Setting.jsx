@@ -6,6 +6,12 @@ export default function Setting() {
   const [previewUrl, setPreviewUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
+  const [newEmail, setNewEmail] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newName, setNewName] = useState("");
+
   const bgColors = [
     "bg-[#B7B1F2]",
     "bg-[#A6D6D6]",
@@ -62,12 +68,37 @@ export default function Setting() {
   const handlePasswordChange = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     try {
-      // Implement password change logic here
-      setMessage({ type: "success", text: "Password updated successfully!" });
+      const res = await fetch("http://localhost:8000/api/change-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          password: newPassword,
+          password_confirmation: confirmPassword,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setMessage({ type: "success", text: data.message });
+      } else {
+        setMessage({
+          type: "error",
+          text: data.message || "Password update failed",
+        });
+      }
     } catch (error) {
-      setMessage({ type: "error", text: "Failed to update password." });
+      setMessage({
+        type: "error",
+        text: "Server error while updating password.",
+      });
     }
+
     setLoading(false);
   };
 
@@ -75,12 +106,62 @@ export default function Setting() {
   const handleEmailChange = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     try {
-      // Implement email change logic here
-      setMessage({ type: "success", text: "Email updated successfully!" });
+      const res = await fetch("http://localhost:8000/api/change-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ email: newEmail }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setMessage({ type: "success", text: data.message });
+      } else {
+        setMessage({
+          type: "error",
+          text: data.message || "Email update failed",
+        });
+      }
     } catch (error) {
-      setMessage({ type: "error", text: "Failed to update email." });
+      setMessage({ type: "error", text: "Server error while updating email." });
     }
+
+    setLoading(false);
+  };
+  // Handle name change
+  const handleNameChange = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const res = await fetch("http://localhost:8000/api/change-name", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ name: newName }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setMessage({ type: "success", text: data.message });
+      } else {
+        setMessage({
+          type: "error",
+          text: data.message || "Name update failed",
+        });
+      }
+    } catch (error) {
+      setMessage({ type: "error", text: "Server error while updating name." });
+    }
+
     setLoading(false);
   };
 
@@ -189,6 +270,8 @@ export default function Setting() {
                 <input
                   type="email"
                   id="new-email"
+                  value={newEmail}
+                  onChange={(e) => setNewEmail(e.target.value)}
                   className="bg-brown-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
                 />
@@ -233,6 +316,8 @@ export default function Setting() {
                 <input
                   type="password"
                   id="new-password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
                   className="bg-brown-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
                 />
@@ -247,6 +332,8 @@ export default function Setting() {
                 <input
                   type="password"
                   id="confirm-password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   className="bg-brown-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required
                 />
@@ -256,6 +343,36 @@ export default function Setting() {
                 className="btn w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
               >
                 {loading ? "Updating..." : "Update Password"}
+              </button>
+            </form>
+          </div>
+          <div className={`shadow rounded-lg p-6 ${bgColors[3]}`}>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              Change Name
+            </h2>
+            <form onSubmit={handleNameChange} className="space-y-4">
+              <div>
+                <label
+                  htmlFor="new-name"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  New Name
+                </label>
+                <input
+                  type="text"
+                  id="new-name"
+                  value={newName}
+                  onChange={(e) => setNewName(e.target.value)}
+                  className="bg-brown-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="btn w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
+                disabled={loading || !newName.trim()}
+              >
+                {loading ? "Updating..." : "Update Name"}
               </button>
             </form>
           </div>
