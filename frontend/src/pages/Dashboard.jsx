@@ -28,8 +28,11 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center ">
-      <div className="w-5/6 p-4 mt-2 top-0">
+    <div className="flex flex-col items-center justify-center dark:mt-80">
+      <div className="w-5/6 p-4 mt-2 top-0 dark:mt-96 ">
+        <h1 className="text-2xl font-semibold mb-10 ml-24 mt-10">
+          Dashboard Budget Tracker ♥
+        </h1>
         <div className="grid grid-cols-1 lg:grid-cols-3 mb-6 m-20">
           <div className="col-span-1 ">
             <Profile />

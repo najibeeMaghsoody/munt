@@ -115,7 +115,7 @@ function AddIcon() {
           </p>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {/*  Eerste item: plusknop */}
+          
             <div
               onClick={() => setShowModal(true)}
               className="bg-[#6499E9] border border-dashed border-gray-400 w-24 h-24 flex items-center justify-center rounded-full shadow cursor-pointer"

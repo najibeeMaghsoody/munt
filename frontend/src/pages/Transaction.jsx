@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AddTransaction from "../component/AddTransaction";
 import Delete from "../component/Delete";
+import ExcelImport from "../component/ExcelImport";
 
 const Transaction = () => {
   const [showDeletePopup, setShowDeletePopup] = useState(false);
@@ -74,15 +75,18 @@ const Transaction = () => {
   };
   return (
     <div className="w-5/6 p-4 sm:ml-64 mt-10 top-0 mb-72">
-      <h1 className="text-2xl font-semibold mb-10">Transaction</h1>
-      <AddTransaction />
-      <div className="p-4 rounded-lg mt-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-4">
+      <h1 className="text-2xl font-semibold mb-10">Transaction ⊹ ࣪ ˖</h1>
+      <div className="flex flex-row items-center gap-4 mb-6">
+        <AddTransaction />
+        <ExcelImport />
+      </div>
+      <div className="p-4 rounded-lg mt-10 ">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8 ">
           {transactions.length > 0 ? (
             transactions.map((transaction, index) => (
               <div
                 key={transaction.id}
-                className={`relative rounded-2xl shadow-md p-6 flex flex-col items-center text-center transition-transform transform hover:scale-105 ${
+                className={`relative rounded-2xl shadow-md p-6 flex flex-col items-center text-center transition-transform transform hover:scale-105 mt-7 ${
                   bgColors[index % bgColors.length]
                 }`}
                 style={{ width: "312px", height: "350px" }}

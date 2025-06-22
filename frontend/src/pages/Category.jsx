@@ -67,7 +67,7 @@ function Category() {
   return (
     <>
       <div className="w-5/6 p-4 sm:ml-64 mt-10 top-0 mb-72 ">
-        <h1 className="text-2xl font-semibold mb-10">Categories</h1>
+        <h1 className="text-2xl font-semibold mb-10">Categories ☘︎</h1>
         <AddCategory />
         <div className="p-4 rounded-lg">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

@@ -31,3 +31,4 @@ class Transactions extends Model
     return $this->belongsTo(Budget::class);
 }
 }
+

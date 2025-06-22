@@ -167,8 +167,10 @@ export default function Setting() {
 
   return (
     <>
-      <div className="w-full m-48">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Settings</h1>
+      <div className="w-full ml-48 mt-20">
+        <h1 className="text-3xl font-bold text-gray-900 mb-8 dark:text-white">
+          Settings ⋅˚₊‧ ଳ ‧₊˚ ⋅
+        </h1>
 
         {/* Message Display */}
         {message.text && (
@@ -273,6 +275,7 @@ export default function Setting() {
                   value={newEmail}
                   onChange={(e) => setNewEmail(e.target.value)}
                   className="bg-brown-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Enter your new email"
                   required
                 />
               </div>
@@ -319,6 +322,7 @@ export default function Setting() {
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   className="bg-brown-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="••••••••"
                   required
                 />
               </div>
@@ -335,6 +339,7 @@ export default function Setting() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className="bg-brown-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="••••••••"
                   required
                 />
               </div>
@@ -363,7 +368,8 @@ export default function Setting() {
                   id="new-name"
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
-                  className="bg-brown-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  className="bg-brown-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Enter your new name"
                   required
                 />
               </div>

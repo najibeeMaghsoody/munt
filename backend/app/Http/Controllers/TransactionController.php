@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\TransactionsImport;
 use App\Models\Transactions;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Exception;
+use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TransactionController extends Controller
 {
@@ -85,6 +88,34 @@ class TransactionController extends Controller
             return response()->json(['message' => 'Transactie succesvol verwijderd.']);
         } catch (Exception $e) {
             return response()->json(['error' => 'Verwijderen mislukt.'], 500);
+        }
+    }
+
+    public function import(Request $request){
+        try {
+            $request->validate([
+                'file' => 'required|file|mimes:csv,xlsx,xls|max:10240', // max 10MB
+            ]);
+
+            // Validate file content before importing
+            $import = new TransactionsImport($request->user());
+            
+            try {
+                Excel::import($import, $request->file('file'));
+                return response()->json(['message' => 'Transactions successfully imported.'], 201);
+            } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+                $failures = $e->failures();
+                $errors = [];
+                foreach ($failures as $failure) {
+                    $errors[] = "Row {$failure->row()}: {$failure->errors()[0]}";
+                }
+                return response()->json(['error' => 'Validation failed', 'details' => $errors], 422);
+            }
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['error' => 'Invalid file format. Please upload a valid Excel (.xlsx, .xls) or CSV file.'], 422);
+        } catch (Exception $e) {
+            Log::error('Import failed: ' . $e->getMessage());
+            return response()->json(['error' => 'Import failed: ' . $e->getMessage()], 500);
         }
     }
 }

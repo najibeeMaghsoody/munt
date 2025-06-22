@@ -53,6 +53,9 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/transactions', [TransactionController::class, 'store']);
     Route::put('/transactions/{transaction}', [TransactionController::class, 'update']);
     Route::delete('/transactions/{transaction}', [TransactionController::class, 'destroy']);
+    //import transactions
+    Route::post('/transactions/import', [TransactionController::class, 'import']);
+
 
 
 });
