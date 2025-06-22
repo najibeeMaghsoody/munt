@@ -26,7 +26,14 @@ class TransactionController extends Controller
             return response()->json(['error' => 'Kon transacties niet ophalen.'], 500);
         }
     }
+public function show(Request $request, Transactions $transaction)
+{
+    if ($transaction->user_id !== $request->user()->id) {
+        return response()->json(['error' => 'Geen toegang tot deze transactie.'], 403);
+    }
 
+    return response()->json($transaction->load('category.file'));
+}
     public function store(Request $request)
     {
         try {

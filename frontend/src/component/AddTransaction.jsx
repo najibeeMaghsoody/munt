@@ -41,18 +41,18 @@ const AddTransaction = () => {
     setError(null);
 
     try {
-      const token = localStorage.getItem("token"); // als je auth-token gebruikt
-      const user_id = localStorage.getItem("user_id"); // eventueel via context
+      const token = localStorage.getItem("token"); 
+      const user_id = localStorage.getItem("user_id"); 
 
       const response = await axios.post(
-        "http://localhost:8000/api/transactions", // Pas aan naar je API route
+        "http://localhost:8000/api/transactions", 
         {
           amount,
           description,
           type,
           category_id: categoryId,
           budget_id: budgetId || null,
-          date: new Date().toISOString().slice(0, 10), // vandaag als voorbeeld
+          date: new Date().toISOString().slice(0, 10), 
         },
         {
           headers: {
@@ -63,7 +63,6 @@ const AddTransaction = () => {
 
       console.log("Transaction opgeslagen:", response.data);
       setPopupOpen(false);
-      // Reset form
       setAmount("");
       setDescription("");
       setType("expense");

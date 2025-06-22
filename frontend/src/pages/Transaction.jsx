@@ -3,10 +3,13 @@ import AddTransaction from "../component/AddTransaction";
 import Delete from "../component/Delete";
 import ExcelImport from "../component/ExcelImport";
 import Logo from "../component/Logo";
+import EditTransaction from "../component/EditTransaction";
 
 const Transaction = () => {
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [selectedTransactionId, setSelectedTransactionId] = useState(null);
+  const [showEditPopup, setShowEditPopup] = useState(false);
+  const [transactionToEdit, setTransactionToEdit] = useState(null);
   const bgColors = [
     "bg-[#B7B1F2]",
     "bg-[#A6D6D6]",
@@ -151,7 +154,11 @@ const Transaction = () => {
 
                   <button
                     className="flex items-center justify-center w-14 h-14 rounded-full bg-black drop-shadow-lg hover:bg-[#6499E9] pointer-events-auto"
-                    title="Edit category"
+                    title="Edit transaction"
+                    onClick={() => {
+                      setTransactionToEdit(transaction);
+                      setShowEditPopup(true);
+                    }}
                   >
                     <svg
                       className="w-6 h-6 text-[#bdb395] dark:text-white"
@@ -181,6 +188,20 @@ const Transaction = () => {
             open={showDeletePopup}
             onClose={() => setShowDeletePopup(false)}
             onConfirm={handleConfirmDelete}
+          />
+          <EditTransaction
+            open={showEditPopup}
+            onClose={() => setShowEditPopup(false)}
+            transaction={transactionToEdit}
+            onSave={(updatedTransaction) => {
+              setTransactions((prev) =>
+                prev.map((t) =>
+                  t.id === updatedTransaction.id ? updatedTransaction : t
+                )
+              );
+              setShowEditPopup(false);
+              setTransactionToEdit(null);
+            }}
           />
         </div>
       </div>
