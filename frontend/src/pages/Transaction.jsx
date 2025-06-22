@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import AddTransaction from "../component/AddTransaction";
 import Delete from "../component/Delete";
 import ExcelImport from "../component/ExcelImport";
+import Logo from "../component/Logo";
 
 const Transaction = () => {
   const [showDeletePopup, setShowDeletePopup] = useState(false);
@@ -75,6 +76,9 @@ const Transaction = () => {
   };
   return (
     <div className="w-5/6 p-4 sm:ml-64 mt-10 top-0 mb-72">
+      <div className="m-28 -mt-2">
+        <Logo />
+      </div>
       <h1 className="text-2xl font-semibold mb-10">Transaction ⊹ ࣪ ˖</h1>
       <div className="flex flex-row items-center gap-4 mb-6">
         <AddTransaction />

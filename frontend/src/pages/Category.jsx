@@ -3,6 +3,7 @@ import AddCategory from "../component/AddCategory";
 import { deleteCategory, getCategories } from "../function";
 import Delete from "../component/Delete";
 import Edit from "../component/Edit";
+import Logo from "../component/Logo";
 
 function Category() {
   const bgColors = [
@@ -66,7 +67,10 @@ function Category() {
 
   return (
     <>
-      <div className="w-5/6 p-4 sm:ml-64 mt-10 top-0 mb-72 ">
+      <div className="w-5/6 p-4 sm:ml-64 ml-10 mt-10 top-0 mb-72 ">
+        <div className="m-28 -mt-2">
+          <Logo />
+        </div>
         <h1 className="text-2xl font-semibold mb-10">Categories ☘︎</h1>
         <AddCategory />
         <div className="p-4 rounded-lg">

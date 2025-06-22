@@ -3,6 +3,7 @@ import AddBudget from "../component/AddBudget";
 import { getBudgets } from "../function";
 import EditBudget from "../component/EditBudget";
 import Delete from "../component/Delete";
+import Logo from "../component/Logo";
 
 function Budget() {
   const [selectedBudgetId, setSelectedBudgetId] = useState(null);
@@ -51,6 +52,7 @@ function Budget() {
 
   return (
     <div className="w-5/6 h-screen p-4 sm:ml-64 mt-10 top-0">
+     
       <h1 className="text-2xl font-semibold mb-10">Budget</h1>
       <AddBudget onSuccess={fetchBudgets} />
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { PhotoIcon } from "@heroicons/react/24/solid";
+import Logo from "../component/Logo";
 
 export default function Setting() {
   const [profileImage, setProfileImage] = useState(null);
@@ -168,6 +169,9 @@ export default function Setting() {
   return (
     <>
       <div className="w-full ml-48 mt-20">
+        <div className="m-28 -mt-2">
+          <Logo />
+        </div>
         <h1 className="text-3xl font-bold text-gray-900 mb-8 dark:text-white">
           Settings ⋅˚₊‧ ଳ ‧₊˚ ⋅
         </h1>

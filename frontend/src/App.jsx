@@ -18,13 +18,14 @@ import Icon from "./pages/Icon";
 import Transaction from "./pages/Transaction";
 import Chart from "./component/Chart";
 
+
 export const ThemeContext = createContext(null);
 function AppContent() {
   const location = useLocation();
   const hideNavbarRoutes = ["/login", "/register"];
   return (
     <>
-      {!hideNavbarRoutes.includes(location.pathname) && <Navbar />}
+      {!hideNavbarRoutes.includes(location.pathname) && <Navbar /> }
       <Routes>
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
