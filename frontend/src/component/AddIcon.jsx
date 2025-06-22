@@ -83,9 +83,11 @@ function AddIcon() {
             </button>
 
             <form onSubmit={handleSubmit}>
-              <h2 className="text-xl font-bold mb-4">Upload Icon</h2>
+              <h2 className="text-xl font-bold mb-4 dark:text-black">
+                Upload Icon
+              </h2>
               {error && (
-                <div className="bg-red-100 text-red-700 p-2 rounded mb-4 text-sm">
+                <div className="bg-red-100 text-red-700 p-2 rounded mb-4 text-sm dark:text-black">
                   {error}
                 </div>
               )}
@@ -110,12 +112,11 @@ function AddIcon() {
       <div className="w-full max-w-4xl">
         <h3 className="text-lg font-semibold mb-4 text-center">Alle icons</h3>
         {allImages.length === 0 ? (
-          <p className="text-center text-gray-500">
+          <p className="text-center text-gray-500 dark:text-gray-500">
             Geen afbeeldingen gevonden.
           </p>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          
             <div
               onClick={() => setShowModal(true)}
               className="bg-[#6499E9] border border-dashed border-gray-400 w-24 h-24 flex items-center justify-center rounded-full shadow cursor-pointer"

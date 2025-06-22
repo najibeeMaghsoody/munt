@@ -79,7 +79,7 @@ const Transaction = () => {
       <div className="m-28 -mt-2">
         <Logo />
       </div>
-      <h1 className="text-2xl font-semibold mb-10">Transaction ⊹ ࣪ ˖</h1>
+      <h1 className="text-2xl font-semibold mb-10 -mt-10">Transaction ⊹ ࣪ ˖</h1>
       <div className="flex flex-row items-center gap-4 mb-6">
         <AddTransaction />
         <ExcelImport />

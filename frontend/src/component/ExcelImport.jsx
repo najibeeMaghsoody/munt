@@ -12,17 +12,17 @@ const ExcelImport = () => {
     if (selectedFile) {
       // Check file type
       const validTypes = [
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
-        'application/vnd.ms-excel', // .xls
-        'text/csv' // .csv
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xlsx
+        "application/vnd.ms-excel", // .xls
+        "text/csv", // .csv
       ];
-      
+
       if (!validTypes.includes(selectedFile.type)) {
-        setError('Please upload a valid Excel file (.xlsx, .xls) or CSV file');
+        setError("Please upload a valid Excel file (.xlsx, .xls) or CSV file");
         setFile(null);
         return;
       }
-      
+
       setError(null);
       setFile(selectedFile);
     }
@@ -30,7 +30,7 @@ const ExcelImport = () => {
 
   const handleUpload = async () => {
     if (!file) {
-      setError('Please select a file first');
+      setError("Please select a file first");
       return;
     }
 
@@ -50,31 +50,36 @@ const ExcelImport = () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           onUploadProgress: (progressEvent) => {
-            const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
             console.log(`Upload Progress: ${percentCompleted}%`);
           },
         }
       );
-      
+
       alert("Import successful!");
       setPopupOpen(false);
       setFile(null);
       setError(null);
     } catch (error) {
-      console.error('Upload error:', error);
-      if (error.code === 'ERR_NETWORK') {
-        setError('Network error: Please check if the server is running');
+      console.error("Upload error:", error);
+      if (error.code === "ERR_NETWORK") {
+        setError("Network error: Please check if the server is running");
       } else if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
-        const errorMessage = error.response.data?.error || error.response.data?.message || "Import failed. Please check your file format and try again.";
+        const errorMessage =
+          error.response.data?.error ||
+          error.response.data?.message ||
+          "Import failed. Please check your file format and try again.";
         setError(errorMessage);
       } else if (error.request) {
         // The request was made but no response was received
-        setError('No response from server. Please try again.');
+        setError("No response from server. Please try again.");
       } else {
         // Something happened in setting up the request that triggered an Error
-        setError('Error: ' + error.message);
+        setError("Error: " + error.message);
       }
     } finally {
       setIsUploading(false);
@@ -110,8 +115,10 @@ const ExcelImport = () => {
       {isPopupOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 className="text-xl font-semibold mb-4">Import Excel</h2>
-            <p className="mb-4">
+            <h2 className="text-xl font-semibold mb-4 dark:text-black">
+              Import Excel
+            </h2>
+            <p className="mb-4 dark:text-black">
               Select an Excel file (.xlsx, .xls) or CSV file to import.
             </p>
             <p className="text-sm text-gray-600 mb-4">
@@ -130,18 +137,16 @@ const ExcelImport = () => {
               className="mb-4"
               disabled={isUploading}
             />
-            {error && (
-              <div className="text-red-500 mb-4 text-sm">{error}</div>
-            )}
+            {error && <div className="text-red-500 mb-4 text-sm">{error}</div>}
             <div className="flex justify-end space-x-2">
               <button
                 onClick={handleUpload}
                 className={`bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 ${
-                  isUploading ? 'opacity-50 cursor-not-allowed' : ''
+                  isUploading ? "opacity-50 cursor-not-allowed" : ""
                 }`}
                 disabled={!file || isUploading}
               >
-                {isUploading ? 'Uploading...' : 'Upload'}
+                {isUploading ? "Uploading..." : "Upload"}
               </button>
               <button
                 onClick={() => {

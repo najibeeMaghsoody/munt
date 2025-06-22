@@ -168,7 +168,7 @@ export default function Setting() {
 
   return (
     <>
-      <div className="w-full ml-48 mt-20">
+      <div className="w-full ml-48 mt-20 ">
         <div className="m-28 -mt-2">
           <Logo />
         </div>
@@ -355,7 +355,7 @@ export default function Setting() {
               </button>
             </form>
           </div>
-          <div className={`shadow rounded-lg p-6 ${bgColors[3]}`}>
+          <div className={`shadow rounded-lg p-6 mb-10 ${bgColors[3]}`}>
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
               Change Name
             </h2>

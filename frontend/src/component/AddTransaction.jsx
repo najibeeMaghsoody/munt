@@ -100,7 +100,7 @@ const AddTransaction = () => {
       </button>
 
       {isPopupOpen && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center dark:text-black">
           <div className="bg-white p-6 rounded-lg w-full max-w-md">
             <h2 className="text-lg font-bold mb-4">Transaction toevoegen</h2>
             {error && (
