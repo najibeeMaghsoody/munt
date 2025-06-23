@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
-{// Haal alle categorieën op van de ingelogde gebruiker
+{
+    // Haal alle categorieën op van de ingelogde gebruiker
     public function index(Request $request)
     {
         $userId = $request->user()->id;
@@ -70,9 +71,9 @@ class CategoryController extends Controller
         // Opslaan in files-tabel
         $fileModel = File::create([
             'name' => $fileName,
-            'extension' => $uploadedFile->getClientOriginalExtension(), // Voeg de extensie toe
-            'size' => $uploadedFile->getSize(), // Voeg de bestandsgrootte toe
-            'user_id' => $request->user()->id, // Voeg de gebruiker ID toe
+            'extension' => $uploadedFile->getClientOriginalExtension(), 
+            'size' => $uploadedFile->getSize(),
+            'user_id' => $request->user()->id, 
         ]);
 
         // Verbind nieuwe file_id met de categorie

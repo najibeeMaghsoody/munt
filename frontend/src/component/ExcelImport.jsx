@@ -67,18 +67,17 @@ const ExcelImport = () => {
       if (error.code === "ERR_NETWORK") {
         setError("Network error: Please check if the server is running");
       } else if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
+        
         const errorMessage =
           error.response.data?.error ||
           error.response.data?.message ||
           "Import failed. Please check your file format and try again.";
         setError(errorMessage);
       } else if (error.request) {
-        // The request was made but no response was received
+       
         setError("No response from server. Please try again.");
       } else {
-        // Something happened in setting up the request that triggered an Error
+      
         setError("Error: " + error.message);
       }
     } finally {
