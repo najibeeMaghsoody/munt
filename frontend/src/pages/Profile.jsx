@@ -45,7 +45,7 @@ const Profile = () => {
       <div className=" flex items-center justify-center p-5">
         <div className="w-full h-[400px] p-6 rounded-2xl shadow-md flex flex-col items-center text-center transition-transform transform hover:scale-105 bg-[#9FB3DF]">
           <div className="flex flex-col items-center">
-            <div className="justify-center mb-4 rounded-full h-30 overflow-hidden border-2 border-gray-300 m-3">
+            <div className="justify-center mb-4 rounded-full h-30 overflow-hidden border-2 border-gray-300 m-3 dark:text-black">
               <img
                 src={user.photo_url || profile}
                 alt="Profile"

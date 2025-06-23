@@ -109,23 +109,25 @@ function AddIcon() {
         </div>
       )}
 
+      {/* Icon Grid */}
       <div className="w-full max-w-4xl">
         <h3 className="text-lg font-semibold mb-4 text-center">Alle icons</h3>
-        {allImages.length === 0 ? (
-          <p className="text-center text-gray-500 dark:text-gray-500">
-            Geen afbeeldingen gevonden.
-          </p>
-        ) : (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div
-              onClick={() => setShowModal(true)}
-              className="bg-[#6499E9] border border-dashed border-gray-400 w-24 h-24 flex items-center justify-center rounded-full shadow cursor-pointer"
-            >
-              <span className="text-3xl font-bold text-gray-600">+</span>
-            </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 justify-center">
+          {/* Altijd de + knop tonen */}
+          <div
+            onClick={() => setShowModal(true)}
+            className="bg-[#6499E9] border border-dashed border-gray-400 w-24 h-24 flex items-center justify-center rounded-full shadow cursor-pointer"
+          >
+            <span className="text-3xl font-bold text-gray-600">+</span>
+          </div>
 
-            {/* Andere icons */}
-            {allImages.map((img) => (
+          {/* Icons als ze er zijn */}
+          {allImages.length === 0 ? (
+            <p className="col-span-full text-center text-gray-500 dark:text-gray-500 mt-4">
+              Geen afbeeldingen gevonden.
+            </p>
+          ) : (
+            allImages.map((img) => (
               <div
                 key={img.id}
                 className="bg-white w-24 h-24 p-2 rounded-full shadow"
@@ -136,9 +138,9 @@ function AddIcon() {
                   className="w-full h-20 object-cover rounded-full"
                 />
               </div>
-            ))}
-          </div>
-        )}
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
