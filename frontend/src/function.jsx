@@ -85,6 +85,7 @@ export const getCategories = async () => {
       },
     });
     return response.data;
+    setCategories(data.categories);
   } catch (error) {
     console.error(
       "Fout bij ophalen van categorieën:",
@@ -270,7 +271,10 @@ export const getCharts = async () => {
     });
     return response.data;
   } catch (error) {
-    console.error("Fout bij ophalen van charts:", error.response?.data || error.message);
+    console.error(
+      "Fout bij ophalen van charts:",
+      error.response?.data || error.message
+    );
     throw error;
   }
 };

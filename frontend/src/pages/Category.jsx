@@ -72,7 +72,10 @@ function Category() {
           <Logo />
         </div>
         <h1 className="text-2xl font-semibold mb-10">Categories ☘︎</h1>
-        <AddCategory />
+        <AddCategory
+          existingCategories={categories} 
+          onAdd={(newCat) => setCategories([...categories, newCat])}
+        />
         <div className="p-4 rounded-lg">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {categories.map((category, index) => (

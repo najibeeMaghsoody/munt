@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 class SettingController extends Controller
 {
-    private $saveFolder = 'profile';
+    private $saveFolder = 'public/profile';
     public function updateProfilePhoto(Request $request)
     {
         $request->validate([

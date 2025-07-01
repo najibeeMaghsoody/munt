@@ -32,21 +32,49 @@ class CategoryController extends Controller
     }
 
     // Sla een nieuwe categorie op
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'file_id' => 'nullable|exists:files,id',
-        ]);
+    // public function store(Request $request)
+    // {
+    //     $validated = $request->validate([
+    //         'name' => 'required|string|max:255',
+    //         'file_id' => 'nullable|exists:files,id',
+    //     ]);
 
-        $category = Categories::create([
-            'name' => $validated['name'],
-            'file_id' => $validated['file_id'] ?? null,
-            'user_id' => $request->user()->id,
-        ]);
+    //     $category = Categories::create([
+    //         'name' => $validated['name'],
+    //         'file_id' => $validated['file_id'] ?? null,
+    //         'user_id' => $request->user()->id,
+    //     ]);
 
-        return response()->json($category, 201);
+    //     return response()->json($category, 201);
+    // }
+public function store(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'file_id' => 'nullable|integer|exists:files,id',
+    ]);
+
+    $user = $request->user();
+
+    // Alleen checken of de gebruiker zelf deze categorie al heeft
+    $exists = Categories::where('user_id', $user->id)
+        ->where('name', $request->name)
+        ->exists();
+
+    if ($exists) {
+        return response()->json([
+            'message' => 'Je hebt deze categorie al aangemaakt.',
+        ], 409); 
     }
+
+    $category = Categories::create([
+        'name' => $request->name,
+        'file_id' => $request->file_id,
+        'user_id' => $user->id,
+    ]);
+
+    return response()->json($category, 201);
+}
 
     // Update een bestaande categorie
   public function update(Request $request, Categories $category)
